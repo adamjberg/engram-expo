@@ -12,16 +12,11 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          Log: {
             screens: {
-              TabOneScreen: 'one',
+              LogScreen: 'log',
             },
-          },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: 'two',
-            },
-          },
+          }
         },
       },
       NotFound: '*',
