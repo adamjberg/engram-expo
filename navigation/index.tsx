@@ -36,7 +36,7 @@ const Drawer = createDrawerNavigator();
 function RootNavigator() {
   return (
     <Drawer.Navigator screenOptions={{ headerShown: true }}>
-      <Drawer.Screen name="Daily" component={BottomTabNavigator} />
+      <Drawer.Screen name="engram" component={BottomTabNavigator} options={{headerLeft: () => { return null }}} />
     </Drawer.Navigator>
   );
 }
