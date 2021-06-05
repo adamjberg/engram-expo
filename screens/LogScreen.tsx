@@ -32,6 +32,7 @@ export default function LogScreen() {
       <View style={styles.textBoxWrapper}>
         <View style={styles.textBox}>
           <TextInput
+            blurOnSubmit={false}
             style={styles.input}
             onSubmitEditing={handleSubmit}
             onChangeText={setBody}
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     width: "100%",
     maxWidth: 800,
-    margin: "auto"
+    margin: "auto",
   },
   listItem: {
     padding: 4,
