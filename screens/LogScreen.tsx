@@ -39,6 +39,7 @@ export default function LogScreen() {
             returnKeyType="done"
             autoCompleteType="off"
             autoCorrect={false}
+            placeholder={"What's on your mind?"}
           />
         </View>
       </View>
@@ -59,13 +60,13 @@ const styles = StyleSheet.create({
   },
   list: {
     flexGrow: 1,
+    width: "100%",
     maxWidth: 800,
+    margin: "auto"
   },
   listItem: {
     padding: 4,
     fontSize: 24,
-    borderBottomWidth: 3,
-    borderBottomColor: "#FF0000",
   },
   listItemSeparator: {
     height: 1,
@@ -74,7 +75,6 @@ const styles = StyleSheet.create({
   },
   input: {
     flexGrow: 1,
-    backgroundColor: "#424242",
     borderBottomWidth: 1,
     borderBottomColor: "#3f51b5",
     padding: 8,
@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
   textBoxWrapper: {
     alignItems: "center",
     width: "100%",
-    backgroundColor: "#424242",
     padding: 16,
   },
   textBox: {
