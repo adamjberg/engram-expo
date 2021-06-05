@@ -3,14 +3,16 @@ import { Button, StyleSheet } from "react-native";
 
 import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import { ListItem } from "react-native-elements";
+import { createNote, Note } from "../api/NoteApi";
 import { View, Text, TextInput } from "../components/Themed";
 
 export default function LogScreen() {
   const [body, setBody] = React.useState("");
-  const [notes, setNotes] = React.useState<{ key: string; body: string }[]>([]);
+  const [notes, setNotes] = React.useState<Note[]>([]);
 
-  function handleSubmit() {
-    setNotes([...notes, { key: String(notes.length), body }]);
+  async function handleSubmit() {
+    const note = await createNote({ body });
+    setNotes([...notes, note]);
     setBody("");
   }
 
@@ -22,6 +24,7 @@ export default function LogScreen() {
     >
       <View style={styles.content}>
         <FlatList
+          keyExtractor={(item)=> { return item._id }}
           style={styles.list}
           data={notes}
           ItemSeparatorComponent={Separator}
