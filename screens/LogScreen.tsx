@@ -24,9 +24,9 @@ export default function LogScreen() {
         <FlatList
           style={styles.list}
           data={notes}
-          // ItemSeparatorComponent={Separator}
+          ItemSeparatorComponent={Separator}
           renderItem={({ item }) => (
-            <ListItem containerStyle={styles.listItem} bottomDivider>
+            <ListItem containerStyle={styles.listItem}>
               <ListItem.Content>
                 <ListItem.Title style={styles.listItemTitle}>{item.body}</ListItem.Title>
               </ListItem.Content>
