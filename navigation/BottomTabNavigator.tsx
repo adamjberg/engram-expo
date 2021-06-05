@@ -45,7 +45,7 @@ const LogStack = createStackNavigator<LogParamList>();
 
 function LogNavigator() {
   return (
-    <LogStack.Navigator>
+    <LogStack.Navigator headerMode="none">
       <LogStack.Screen
         name="LogScreen"
         component={LogScreen}
