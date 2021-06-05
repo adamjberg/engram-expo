@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
+import GlobalStyle from './GlobalStyle';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -16,6 +17,7 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
+        <GlobalStyle css="input {outline: none;}" />
         <Navigation colorScheme={colorScheme} />
         <StatusBar />
       </SafeAreaProvider>
