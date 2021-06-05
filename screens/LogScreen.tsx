@@ -2,6 +2,7 @@ import * as React from "react";
 import { Button, StyleSheet } from "react-native";
 
 import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
+import { ListItem } from "react-native-elements";
 import { View, Text, TextInput } from "../components/Themed";
 
 export default function LogScreen() {
@@ -23,9 +24,14 @@ export default function LogScreen() {
         <FlatList
           style={styles.list}
           data={notes}
-          ItemSeparatorComponent={Separator}
+          // ItemSeparatorComponent={Separator}
           renderItem={({ item }) => (
-            <Text style={styles.listItem}>{item.body}</Text>
+            <ListItem containerStyle={styles.listItem} bottomDivider>
+              <ListItem.Content>
+                <ListItem.Title style={styles.listItemTitle}>{item.body}</ListItem.Title>
+              </ListItem.Content>
+              {/* <ListItem.Chevron /> */}
+            </ListItem>
           )}
         />
       </View>
@@ -66,8 +72,10 @@ const styles = StyleSheet.create({
     margin: "auto",
   },
   listItem: {
-    padding: 4,
-    fontSize: 24,
+    backgroundColor: "rgba(0,0,0, 0)"
+  },
+  listItemTitle: {
+    color: "white"
   },
   listItemSeparator: {
     height: 1,
