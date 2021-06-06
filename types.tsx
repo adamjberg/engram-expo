@@ -17,6 +17,7 @@ export type BottomTabParamList = {
 
 export type LogParamList = {
   LogScreen: undefined;
+  NotesScreen: undefined;
 };
 
 export type TabTwoParamList = {

@@ -24,9 +24,30 @@ export default function BottomTabNavigator() {
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Log"
-        component={LogNavigator}
+        component={LogScreen}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="list-outline" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Notes"
+        component={LogScreen}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="remove" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Tasks"
+        component={LogScreen}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="ellipse" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Events"
+        component={LogScreen}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="ellipse-outline" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -50,6 +71,11 @@ function LogNavigator() {
         name="LogScreen"
         component={LogScreen}
         options={{ headerTitle: 'Log' }}
+      />
+      <LogStack.Screen
+        name="NotesScreen"
+        component={LogScreen}
+        options={{ headerTitle: 'Notes' }}
       />
     </LogStack.Navigator>
   );
