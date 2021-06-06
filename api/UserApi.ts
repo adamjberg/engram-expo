@@ -1,10 +1,12 @@
+import { baseUrl } from "./Api";
+
 type LoginOptions = {
   username: string;
   password: string;
 }
 
 export async function login(options: LoginOptions) {
-  const res = await fetch("https://engram.xyzdigital.com/api/users/login", {
+  const res = await fetch(`${baseUrl}/api/users/login`, {
     method: "POST",
     headers: {
       Accept: "application/json",

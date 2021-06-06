@@ -146,6 +146,7 @@ export default function LogScreen({ route }: LogScreenProps) {
             returnKeyType="done"
             autoCompleteType="off"
             autoCorrect={false}
+            autoCapitalize={"none"}
             placeholder={"What's on your mind?"}
           />
         </View>

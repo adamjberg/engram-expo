@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -18,8 +19,12 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   const [password, setPassword] = React.useState("");
 
   async function handleSubmit() {
-    await login({ username, password });
+    try {
+      await login({ username, password });
     navigation.navigate("Daily");
+    } catch(err) {
+      Alert.alert("Error", err.message)
+    }
   }
 
   return (
@@ -33,6 +38,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         value={username}
         autoCompleteType="off"
         autoCorrect={false}
+        autoCapitalize={"none"}
         placeholder={"Username"}
       />
       <TextInput
@@ -41,7 +47,9 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         value={password}
         autoCompleteType="off"
         autoCorrect={false}
+        autoCapitalize={"none"}
         placeholder={"Password"}
+        secureTextEntry={true}
       />
       <Button title="Login" onPress={handleSubmit} />
     </KeyboardAvoidingView>
