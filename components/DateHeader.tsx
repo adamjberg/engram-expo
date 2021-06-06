@@ -35,6 +35,9 @@ export default function DateHeader({ date, onChange, onRefresh, onToday }: DateH
       fontSize: 24,
       paddingHorizontal: 8,
       paddingVertical: 4
+    },
+    outerButton: {
+      marginHorizontal: 8
     }
   });
 
@@ -61,13 +64,13 @@ export default function DateHeader({ date, onChange, onRefresh, onToday }: DateH
   return (
     <View style={styles.dateHeader}>
       <View style={styles.content}>
-        <Button type="clear" icon={<Icon name="calendar" size={24} onPress={handleTodayPressed}/>}/>
+        <Button type="clear" style={styles.outerButton} icon={<Icon name="calendar" size={24} onPress={handleTodayPressed}/>}/>
         <View style={styles.spacer}></View>
         <Button type="clear" icon={<Icon name="chevron-left" size={24} onPress={handleDateLeftPressed}/>} />
         <Text style={styles.date}>{moment(date).format("YYYY-MM-DD")}</Text>
         <Button type="clear" icon={<Icon name="chevron-right" size={24} onPress={handleDateRightPressed} />} />
         <View style={styles.spacer}></View>
-        <Button type="clear" icon={<Icon name="refresh" size={24} onPress={handleRefreshPressed}/>}/>
+        <Button type="clear" style={styles.outerButton} icon={<Icon name="refresh" size={24} onPress={handleRefreshPressed}/>}/>
       </View>
     </View>
   );
