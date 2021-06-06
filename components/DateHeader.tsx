@@ -11,9 +11,11 @@ import useColorScheme from "../hooks/useColorScheme";
 export type DateHeaderProps = {
   date: Date;
   onChange: (date: Date) => void;
+  onRefresh: () => void;
+  onToday: () => void;
 };
 
-export default function DateHeader({ date, onChange }: DateHeaderProps) {
+export default function DateHeader({ date, onChange, onRefresh, onToday }: DateHeaderProps) {
   const theme = useColorScheme();
 
   const styles = StyleSheet.create({
@@ -48,14 +50,24 @@ export default function DateHeader({ date, onChange }: DateHeaderProps) {
     onChange(moment(date).add(amount, 'days').toDate());
   }
 
+  function handleRefreshPressed() {
+    onRefresh();
+  }
+
+  function handleTodayPressed() {
+    onToday();
+  }
+
   return (
     <View style={styles.dateHeader}>
       <View style={styles.content}>
+        <Button type="clear" icon={<Icon name="calendar" size={24} onPress={handleTodayPressed}/>}/>
         <View style={styles.spacer}></View>
         <Button type="clear" icon={<Icon name="chevron-left" size={24} onPress={handleDateLeftPressed}/>} />
         <Text style={styles.date}>{moment(date).format("YYYY-MM-DD")}</Text>
         <Button type="clear" icon={<Icon name="chevron-right" size={24} onPress={handleDateRightPressed} />} />
         <View style={styles.spacer}></View>
+        <Button type="clear" icon={<Icon name="refresh" size={24} onPress={handleRefreshPressed}/>}/>
       </View>
     </View>
   );

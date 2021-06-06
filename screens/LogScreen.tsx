@@ -78,6 +78,14 @@ export default function LogScreen() {
     },
   });
 
+  function handleTodayPressed() {
+    setDate(new Date());
+  }
+
+  function handleRefreshPressed() {
+
+  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -85,7 +93,7 @@ export default function LogScreen() {
       style={styles.container}
     >
       <View style={styles.content}>
-        <DateHeader date={date} onChange={handleDateChanged} />
+        <DateHeader date={date} onChange={handleDateChanged} onToday={handleTodayPressed} onRefresh={handleRefreshPressed} />
         <FlatList
           keyExtractor={(item, index) => {
             if (item._id) {
