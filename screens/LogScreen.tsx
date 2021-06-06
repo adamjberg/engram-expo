@@ -4,27 +4,79 @@ import { Button, StyleSheet } from "react-native";
 import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createNote, Note } from "../api/NoteApi";
-import { View, Text, TextInput } from "../components/Themed";
+import { View, TextInput, useThemeColor, ListItemTitle } from "../components/Themed";
 import moment from "moment";
 import DateHeader from "../components/DateHeader";
+import useColorScheme from "../hooks/useColorScheme";
 
 export default function LogScreen() {
   const [body, setBody] = React.useState("");
   const [notes, setNotes] = React.useState<Note[]>([]);
   const [date, setDate] = React.useState(new Date());
+  const theme = useColorScheme();
 
   async function handleSubmit() {
-    const note = await createNote({
-      body,
-      date: moment().format("YYYY-MM-DD"),
-    });
-    setNotes([...notes, note]);
+    let dateString = moment(date).format("YYYY-MM-DD")
+    let noteToCreate: Note = { body, date: dateString };
+    if (false) {
+      const createdNote = await createNote(noteToCreate);
+      setNotes([...notes, createdNote]);
+    } else {
+      setNotes([...notes, noteToCreate]);
+    }
+    
     setBody("");
   }
 
   function handleDateChanged(date: Date) {
     setDate(date);
   }
+
+  const Separator = () => {
+    return <View style={styles.listItemSeparator}></View>;
+  };
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1
+    },
+    content: {
+      flex: 1,
+    },
+    list: {
+      flexGrow: 1,
+      width: "100%",
+      maxWidth: 800,
+      margin: "auto",
+    },
+    listItem: {
+      backgroundColor: "rgba(0,0,0, 0)",
+    },
+    listItemTitle: {
+      color: "white",
+    },
+    listItemSeparator: {
+      height: 1,
+      width: "100%",
+      backgroundColor: theme === "light" ? "#EEE" :"#424242",
+    },
+    input: {
+      flexGrow: 1,
+      borderBottomWidth: 1,
+      borderBottomColor: "#3f51b5",
+      padding: 8,
+    },
+    textBoxWrapper: {
+      alignItems: "center",
+      width: "100%",
+      padding: 16,
+    },
+    textBox: {
+      width: "100%",
+      maxWidth: 800,
+      flexDirection: "row",
+    },
+  });
 
   return (
     <KeyboardAvoidingView
@@ -35,8 +87,12 @@ export default function LogScreen() {
       <View style={styles.content}>
         <DateHeader date={date} onChange={handleDateChanged} />
         <FlatList
-          keyExtractor={(item) => {
-            return item._id as string;
+          keyExtractor={(item, index) => {
+            if (item._id) {
+              return item._id
+            } else {
+              return String(index)
+            }
           }}
           style={styles.list}
           data={notes}
@@ -44,9 +100,9 @@ export default function LogScreen() {
           renderItem={({ item }) => (
             <ListItem containerStyle={styles.listItem}>
               <ListItem.Content>
-                <ListItem.Title style={styles.listItemTitle}>
+                <ListItemTitle>
                   {item.body}
-                </ListItem.Title>
+                </ListItemTitle>
               </ListItem.Content>
               {/* <ListItem.Chevron /> */}
             </ListItem>
@@ -71,49 +127,3 @@ export default function LogScreen() {
     </KeyboardAvoidingView>
   );
 }
-
-const Separator = () => {
-  return <View style={styles.listItemSeparator}></View>;
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  content: {
-    flex: 1,
-  },
-  list: {
-    flexGrow: 1,
-    width: "100%",
-    maxWidth: 800,
-    margin: "auto",
-  },
-  listItem: {
-    backgroundColor: "rgba(0,0,0, 0)",
-  },
-  listItemTitle: {
-    color: "white",
-  },
-  listItemSeparator: {
-    height: 1,
-    width: "100%",
-    backgroundColor: "#424242",
-  },
-  input: {
-    flexGrow: 1,
-    borderBottomWidth: 1,
-    borderBottomColor: "#3f51b5",
-    padding: 8,
-  },
-  textBoxWrapper: {
-    alignItems: "center",
-    width: "100%",
-    padding: 16,
-  },
-  textBox: {
-    width: "100%",
-    maxWidth: 800,
-    flexDirection: "row",
-  },
-});

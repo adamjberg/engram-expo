@@ -6,6 +6,7 @@ import { View, Text } from "./Themed";
 import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import moment from "moment";
+import useColorScheme from "../hooks/useColorScheme";
 
 export type DateHeaderProps = {
   date: Date;
@@ -13,6 +14,28 @@ export type DateHeaderProps = {
 };
 
 export default function DateHeader({ date, onChange }: DateHeaderProps) {
+  const theme = useColorScheme();
+
+  const styles = StyleSheet.create({
+    dateHeader: {
+      borderBottomWidth: 1,
+      borderBottomColor: theme ==="light" ? "#EEE" : "#424242"
+    },
+    content: {
+      width: "100%",
+      maxWidth: 800,
+      flexDirection: "row"
+    },
+    spacer: {
+      flexGrow: 1
+    },
+    date: {
+      fontSize: 24,
+      paddingHorizontal: 8,
+      paddingVertical: 4
+    }
+  });
+
   function handleDateLeftPressed() {
     handleDateChanged(-1);
   }
@@ -37,23 +60,3 @@ export default function DateHeader({ date, onChange }: DateHeaderProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  dateHeader: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#EEE"
-  },
-  content: {
-    width: "100%",
-    maxWidth: 800,
-    flexDirection: "row"
-  },
-  spacer: {
-    flexGrow: 1
-  },
-  date: {
-    fontSize: 24,
-    paddingHorizontal: 8,
-    paddingVertical: 4
-  }
-});
