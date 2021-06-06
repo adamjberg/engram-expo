@@ -1,13 +1,12 @@
 import * as React from "react";
-import { Button, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
-import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
+import { Alert, FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createNote, Note } from "../api/NoteApi";
 import {
   View,
   TextInput,
-  useThemeColor,
   ListItemTitle,
 } from "../components/Themed";
 import moment from "moment";
@@ -33,10 +32,13 @@ export default function LogScreen({ route }: LogScreenProps) {
   async function handleSubmit() {
     let dateString = moment(date).format("YYYY-MM-DD");
     let noteToCreate: Note = { body, date: dateString };
-    const createdNote = await createNote(noteToCreate);
-    setNotes([...notes, createdNote]);
-
-    setBody("");
+    try {
+      const createdNote = await createNote(noteToCreate);
+      setNotes([...notes, createdNote]);
+      setBody("");
+    } catch(err) {
+      Alert.alert("Error", err.message)
+    }
   }
 
   function handleDateChanged(date: Date) {
