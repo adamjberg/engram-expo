@@ -10,6 +10,7 @@ export default {
   prefixes: [Linking.makeUrl('/')],
   config: {
     screens: {
+      Daily: "daily",
       Login: "login",
       SignUp: "signup"
     },

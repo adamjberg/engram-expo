@@ -9,7 +9,7 @@ export type RootStackParamList = {
 };
 
 export type BottomTabParamList = {
-  Log: undefined;
+  All: undefined;
   Notes: {
     type: "note"
   };

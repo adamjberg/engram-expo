@@ -20,10 +20,10 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Log"
+      initialRouteName="All"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
-        name="Log"
+        name="All"
         component={LogScreen}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="list-outline" color={color} />,
