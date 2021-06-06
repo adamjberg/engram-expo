@@ -13,6 +13,7 @@ import * as React from "react";
 import { ColorSchemeName } from "react-native";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
+import LoginScreen from "../screens/LoginScreen";
 
 export default function Navigation({
   colorScheme,
@@ -36,7 +37,8 @@ const Drawer = createDrawerNavigator();
 function RootNavigator() {
   return (
     <Drawer.Navigator screenOptions={{ headerShown: true }}>
-      <Drawer.Screen name="engram" component={BottomTabNavigator} options={{headerLeft: () => { return null }}} />
+      <Drawer.Screen name="Daily" component={BottomTabNavigator} />
+      <Drawer.Screen name="Login" component={LoginScreen} options={{headerLeft: () => { return null }}} />
     </Drawer.Navigator>
   );
 }

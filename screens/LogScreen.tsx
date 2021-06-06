@@ -5,13 +5,14 @@ import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createNote, Note } from "../api/NoteApi";
 import { View, Text, TextInput } from "../components/Themed";
+import moment from "moment";
 
 export default function LogScreen() {
   const [body, setBody] = React.useState("");
   const [notes, setNotes] = React.useState<Note[]>([]);
 
   async function handleSubmit() {
-    const note = await createNote({ body });
+    const note = await createNote({ body, date: moment().format("YYYY-MM-DD") });
     setNotes([...notes, note]);
     setBody("");
   }

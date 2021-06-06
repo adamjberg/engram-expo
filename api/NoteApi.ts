@@ -1,6 +1,7 @@
 export type Note = {
-  _id: string;
+  _id?: string;
   body: string;
+  date: string;
 };
 
 export async function createNote(note: Note): Promise<Note> {
