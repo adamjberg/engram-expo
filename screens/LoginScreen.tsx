@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native";
 import { login } from "../api/UserApi";
-import { View, Text, TextInput } from "../components/Themed";
+import { TextInput } from "../components/Themed";
 
 type LoginScreenProps = {
   navigation: any;
@@ -23,7 +23,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
       await login({ username, password });
     navigation.navigate("Daily");
     } catch(err) {
-      Alert.alert("Error", err.message)
+      Alert.alert("Error", err.message);
     }
   }
 
@@ -33,7 +33,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
       style={styles.container}
     >
       <TextInput
-        // style={styles.input}
+        style={styles.input}
         onChangeText={setUsername}
         value={username}
         autoCompleteType="off"
@@ -42,7 +42,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         placeholder={"Username"}
       />
       <TextInput
-        // style={styles.input}
+        style={styles.input}
         onChangeText={setPassword}
         value={password}
         autoCompleteType="off"
@@ -60,5 +60,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: 'center',
+    alignContent: "center"
   },
+  input: {
+    fontSize: 24,
+    width: "100%",
+    maxWidth: 800,
+    textAlign: "center",
+    marginBottom: 8
+  }
 });
