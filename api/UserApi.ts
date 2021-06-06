@@ -23,6 +23,14 @@ type SignUpParams = {
   password: string;
 }
 
-export function signup(params: SignUpParams) {
-
+export async function signup(params: SignUpParams) {
+  const res = await fetch(`${baseUrl}/api/users/signup`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
+  });
+  return res.json();
 }
