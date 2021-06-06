@@ -5,6 +5,7 @@ export type Note = {
   _id?: string;
   body: string;
   date: string;
+  type: string;
 };
 
 export async function createNote(note: Note): Promise<Note> {
@@ -20,11 +21,12 @@ export async function createNote(note: Note): Promise<Note> {
 }
 
 export type GetNotesParams = {
-  type: string;
-  date: string;
+  type?: string;
+  since?: string;
+  before?: string;
 }
 
-export async function getNotes(params: GetNotesParams): Promise<Note[]> {
+export async function getNotes(params?: GetNotesParams): Promise<Note[]> {
   const query = qs.stringify(params);
   const res = await fetch(`${baseUrl}/api/notes?${query}`);
   return res.json();

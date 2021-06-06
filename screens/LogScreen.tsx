@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 import { Alert, FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import { ListItem } from "react-native-elements";
-import { createNote, Note } from "../api/NoteApi";
+import { createNote, getNotes, Note } from "../api/NoteApi";
 import {
   View,
   TextInput,
@@ -15,8 +15,8 @@ import useColorScheme from "../hooks/useColorScheme";
 
 export type LogScreenProps = {
   route: {
-    params: {
-      type: string;
+    params?: {
+      type?: string;
     };
   };
 };
@@ -26,12 +26,39 @@ export default function LogScreen({ route }: LogScreenProps) {
   const [notes, setNotes] = React.useState<Note[]>([]);
   const [date, setDate] = React.useState(new Date());
   const theme = useColorScheme();
+  const type = route.params?.type;
+  let allowedTypes = ["note", "task", "task_completed", "event"];
+  if (type) {
+    if (type === "task") {
+      allowedTypes = ["task", "task_completed"]
+    } else {
+      allowedTypes = [type]
+    }
+  }
 
-  // React.useEffect(() => {}, [route.params.type]);
+  React.useEffect(() => {
+    refetchNotes();
+  }, [date, route.params?.type]);
+
+  async function refetchNotes() {
+    getNotes().then((notes) => {
+      const filteredNotes = notes.filter((note) => {
+        if (note.date !== moment(date).format("YYYY-MM-DD")) {
+          return false
+        }
+        if (allowedTypes.includes(note.type) === false) {
+          return false;
+        }
+        return true;
+        
+      });
+      setNotes(filteredNotes);
+    }).catch(handleGenericError)
+  }
 
   async function handleSubmit() {
     let dateString = moment(date).format("YYYY-MM-DD");
-    let noteToCreate: Note = { body, date: dateString };
+    let noteToCreate: Note = { body, type: type || "note", date: dateString };
     try {
       const createdNote = await createNote(noteToCreate);
       setNotes([...notes, createdNote]);
@@ -99,7 +126,9 @@ export default function LogScreen({ route }: LogScreenProps) {
     setDate(new Date());
   }
 
-  function handleRefreshPressed() {}
+  function handleRefreshPressed() {
+    refetchNotes();
+  }
 
   return (
     <KeyboardAvoidingView

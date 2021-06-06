@@ -32,6 +32,9 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="Notes"
         component={LogScreen}
+        initialParams={{
+          type: "note"
+        }}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="remove" color={color} />,
         }}
@@ -49,6 +52,9 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="Events"
         component={LogScreen}
+        initialParams={{
+          type: "event"
+        }}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ellipse-outline" color={color} />,
         }}
