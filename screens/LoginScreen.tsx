@@ -5,11 +5,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  Button,
   Image
 } from "react-native";
+import { Link } from "@react-navigation/native"
 import { login, signup } from "../api/UserApi";
 import { TextInput } from "../components/Themed";
+import { Button } from "react-native-elements"
+import Divider from "../components/Divider";
 const Logo = require("../assets/images/icon.png");
 
 type LoginScreenProps = {
@@ -77,7 +79,8 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
         placeholder={"Password"}
         secureTextEntry={true}
       />
-      <Button title={isSignUp ? "Sign Up" : "Login"} onPress={handleSubmit} />
+      <Button style={styles.primaryButton} title={isSignUp ? "Sign Up" : "Login"} onPress={handleSubmit} />
+      {isSignUp ? <Link style={styles.link} to="/login">Already have an account? Log in</Link> : <Link style={styles.link} to="/signup">Don't have an account? Sign Up</Link> }
     </KeyboardAvoidingView>
   );
 }
@@ -90,13 +93,17 @@ const styles = StyleSheet.create({
   logo: {
     width: 256,
     height: 256,
-    marginVertical: 64
+    marginVertical: 32
   },
   input: {
     fontSize: 24,
     width: 256,
-    maxWidth: 800,
-    textAlign: "center",
     marginBottom: 8
+  },
+  primaryButton: {
+    width: 256
+  },
+  link: {
+    marginVertical: 8
   }
 });
