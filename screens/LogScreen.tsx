@@ -37,12 +37,16 @@ export default function LogScreen({ route }: LogScreenProps) {
       setNotes([...notes, createdNote]);
       setBody("");
     } catch(err) {
-      Alert.alert("Error", err.message)
+      handleGenericError(err);
     }
   }
 
   function handleDateChanged(date: Date) {
     setDate(date);
+  }
+  
+  function handleGenericError(err: Error) {
+    Alert.alert("Error", err.message)
   }
 
   const Separator = () => {
