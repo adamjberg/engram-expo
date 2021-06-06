@@ -6,15 +6,17 @@ import {
   Platform,
   StyleSheet,
   Button,
+  Image
 } from "react-native";
 import { login, signup } from "../api/UserApi";
 import { TextInput } from "../components/Themed";
+const Logo = require("../assets/images/icon.png");
 
 type LoginScreenProps = {
   navigation: any;
   route: {
-    params: {
-      isSignUp: boolean;
+    params?: {
+      isSignUp?: boolean;
     }
   }
 }
@@ -23,7 +25,7 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const isSignUp = route.params.isSignUp;
+  const isSignUp = route.params?.isSignUp;
 
   async function handleSubmit() {
     try {
@@ -43,6 +45,7 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles.container}
     >
+      <Image style={styles.logo} source={Logo}/>
       <TextInput
         style={styles.input}
         onChangeText={setUsername}
@@ -83,12 +86,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: 'center',
-    alignContent: "center"
+  },
+  logo: {
+    width: 256,
+    height: 256,
+    marginVertical: 64
   },
   input: {
     fontSize: 24,
-    width: "100%",
+    width: 256,
     maxWidth: 800,
     textAlign: "center",
     marginBottom: 8
