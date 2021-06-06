@@ -39,6 +39,7 @@ function RootNavigator() {
     <Drawer.Navigator screenOptions={{ headerShown: true }}>
       <Drawer.Screen name="Daily" component={BottomTabNavigator} />
       <Drawer.Screen name="Login" component={LoginScreen} options={{headerLeft: () => { return null }}} />
+      <Drawer.Screen name="Sign Up" component={LoginScreen} options={{headerLeft: () => { return null }}} initialParams={{ isSignUp: true }} />
     </Drawer.Navigator>
   );
 }

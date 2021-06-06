@@ -17,6 +17,12 @@ export async function login(options: LoginOptions) {
   return res.json();
 }
 
-export function signup() {
+type SignUpParams = {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export function signup(params: SignUpParams) {
 
 }

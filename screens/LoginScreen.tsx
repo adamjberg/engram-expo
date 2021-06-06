@@ -7,21 +7,32 @@ import {
   StyleSheet,
   Button,
 } from "react-native";
-import { login } from "../api/UserApi";
+import { login, signup } from "../api/UserApi";
 import { TextInput } from "../components/Themed";
 
 type LoginScreenProps = {
   navigation: any;
+  route: {
+    params: {
+      isSignUp: boolean;
+    }
+  }
 }
 
-export default function LoginScreen({ navigation }: LoginScreenProps) {
+export default function LoginScreen({ navigation, route }: LoginScreenProps) {
   const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const isSignUp = route.params.isSignUp;
 
   async function handleSubmit() {
     try {
-      await login({ username, password });
-    navigation.navigate("Daily");
+      if (isSignUp) {
+        signup({ username, email, password })
+      } else {
+        await login({ username, password });
+      }
+      navigation.navigate("Daily");
     } catch(err) {
       Alert.alert("Error", err.message);
     }
@@ -41,6 +52,18 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         autoCapitalize={"none"}
         placeholder={"Username"}
       />
+      {isSignUp ? (
+        <TextInput
+          style={styles.input}
+          onChangeText={setEmail}
+          value={email}
+          autoCompleteType="off"
+          keyboardType="email-address"
+          autoCorrect={false}
+          autoCapitalize={"none"}
+          placeholder={"Email"}
+        />
+      ) : null}
       <TextInput
         style={styles.input}
         onChangeText={setPassword}
@@ -51,7 +74,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
         placeholder={"Password"}
         secureTextEntry={true}
       />
-      <Button title="Login" onPress={handleSubmit} />
+      <Button title={isSignUp ? "Sign Up" : "Login"} onPress={handleSubmit} />
     </KeyboardAvoidingView>
   );
 }
