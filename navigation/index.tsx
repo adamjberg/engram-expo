@@ -38,8 +38,8 @@ function RootNavigator() {
   return (
     <Drawer.Navigator screenOptions={{ headerShown: true }}>
       <Drawer.Screen name="Daily" component={BottomTabNavigator} />
-      <Drawer.Screen name="Login" component={LoginScreen} options={{headerTitle: "engram", headerLeft: () => { return null }}} />
-      <Drawer.Screen name="SignUp" component={LoginScreen} options={{headerTitle: "engram", headerLeft: () => { return null }}} initialParams={{ isSignUp: true }} />
+      <Drawer.Screen name="Login" component={LoginScreen} options={{title: "Log In", headerTitle: "engram", headerLeft: () => { return null }}} />
+      <Drawer.Screen name="SignUp" component={LoginScreen} options={{title: "Sign Up", headerTitle: "engram", headerLeft: () => { return null }}} initialParams={{ isSignUp: true }} />
     </Drawer.Navigator>
   );
 }
