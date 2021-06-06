@@ -1,3 +1,6 @@
+import qs from "querystring";
+import { baseUrl } from "./Api";
+
 export type Note = {
   _id?: string;
   body: string;
@@ -5,7 +8,7 @@ export type Note = {
 };
 
 export async function createNote(note: Note): Promise<Note> {
-  const res = await fetch("https://engram.xyzdigital.com/api/notes", {
+  const res = await fetch(`${baseUrl}/api/notes`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -13,5 +16,16 @@ export async function createNote(note: Note): Promise<Note> {
     },
     body: JSON.stringify(note),
   });
+  return res.json();
+}
+
+export type GetNotesParams = {
+  type: string;
+  date: string;
+}
+
+export async function getNotes(params: GetNotesParams): Promise<Note[]> {
+  const query = qs.stringify(params);
+  const res = await fetch(`${baseUrl}/api/notes?${query}`);
   return res.json();
 }

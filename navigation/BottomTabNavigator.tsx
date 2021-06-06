@@ -39,6 +39,9 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="Tasks"
         component={LogScreen}
+        initialParams={{
+          type: "task"
+        }}
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ellipse" color={color} />,
         }}

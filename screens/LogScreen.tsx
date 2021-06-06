@@ -4,27 +4,38 @@ import { Button, StyleSheet } from "react-native";
 import { FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import { ListItem } from "react-native-elements";
 import { createNote, Note } from "../api/NoteApi";
-import { View, TextInput, useThemeColor, ListItemTitle } from "../components/Themed";
+import {
+  View,
+  TextInput,
+  useThemeColor,
+  ListItemTitle,
+} from "../components/Themed";
 import moment from "moment";
 import DateHeader from "../components/DateHeader";
 import useColorScheme from "../hooks/useColorScheme";
 
-export default function LogScreen() {
+export type LogScreenProps = {
+  route: {
+    params: {
+      type: string;
+    };
+  };
+};
+
+export default function LogScreen({ route }: LogScreenProps) {
   const [body, setBody] = React.useState("");
   const [notes, setNotes] = React.useState<Note[]>([]);
   const [date, setDate] = React.useState(new Date());
   const theme = useColorScheme();
 
+  // React.useEffect(() => {}, [route.params.type]);
+
   async function handleSubmit() {
-    let dateString = moment(date).format("YYYY-MM-DD")
+    let dateString = moment(date).format("YYYY-MM-DD");
     let noteToCreate: Note = { body, date: dateString };
-    if (false) {
-      const createdNote = await createNote(noteToCreate);
-      setNotes([...notes, createdNote]);
-    } else {
-      setNotes([...notes, noteToCreate]);
-    }
-    
+    const createdNote = await createNote(noteToCreate);
+    setNotes([...notes, createdNote]);
+
     setBody("");
   }
 
@@ -35,10 +46,10 @@ export default function LogScreen() {
   const Separator = () => {
     return <View style={styles.listItemSeparator}></View>;
   };
-  
+
   const styles = StyleSheet.create({
     container: {
-      flex: 1
+      flex: 1,
     },
     content: {
       flex: 1,
@@ -58,7 +69,7 @@ export default function LogScreen() {
     listItemSeparator: {
       height: 1,
       width: "100%",
-      backgroundColor: theme === "light" ? "#EEE" :"#424242",
+      backgroundColor: theme === "light" ? "#EEE" : "#424242",
     },
     input: {
       flexGrow: 1,
@@ -82,9 +93,7 @@ export default function LogScreen() {
     setDate(new Date());
   }
 
-  function handleRefreshPressed() {
-
-  }
+  function handleRefreshPressed() {}
 
   return (
     <KeyboardAvoidingView
@@ -93,13 +102,18 @@ export default function LogScreen() {
       style={styles.container}
     >
       <View style={styles.content}>
-        <DateHeader date={date} onChange={handleDateChanged} onToday={handleTodayPressed} onRefresh={handleRefreshPressed} />
+        <DateHeader
+          date={date}
+          onChange={handleDateChanged}
+          onToday={handleTodayPressed}
+          onRefresh={handleRefreshPressed}
+        />
         <FlatList
           keyExtractor={(item, index) => {
             if (item._id) {
-              return item._id
+              return item._id;
             } else {
-              return String(index)
+              return String(index);
             }
           }}
           style={styles.list}
@@ -108,9 +122,7 @@ export default function LogScreen() {
           renderItem={({ item }) => (
             <ListItem containerStyle={styles.listItem}>
               <ListItem.Content>
-                <ListItemTitle>
-                  {item.body}
-                </ListItemTitle>
+                <ListItemTitle>{item.body}</ListItemTitle>
               </ListItem.Content>
               {/* <ListItem.Chevron /> */}
             </ListItem>

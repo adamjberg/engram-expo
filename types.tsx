@@ -11,7 +11,9 @@ export type RootStackParamList = {
 export type BottomTabParamList = {
   Log: undefined;
   Notes: undefined;
-  Tasks: undefined;
+  Tasks: {
+    type: "task"
+  };
   Events: undefined;
 };
 
