@@ -6,15 +6,24 @@ import { ListItem } from "react-native-elements";
 import { createNote, Note } from "../api/NoteApi";
 import { View, Text, TextInput } from "../components/Themed";
 import moment from "moment";
+import DateHeader from "../components/DateHeader";
 
 export default function LogScreen() {
   const [body, setBody] = React.useState("");
   const [notes, setNotes] = React.useState<Note[]>([]);
+  const [date, setDate] = React.useState(new Date());
 
   async function handleSubmit() {
-    const note = await createNote({ body, date: moment().format("YYYY-MM-DD") });
+    const note = await createNote({
+      body,
+      date: moment().format("YYYY-MM-DD"),
+    });
     setNotes([...notes, note]);
     setBody("");
+  }
+
+  function handleDateChanged(date: Date) {
+    setDate(date);
   }
 
   return (
@@ -24,15 +33,20 @@ export default function LogScreen() {
       style={styles.container}
     >
       <View style={styles.content}>
+        <DateHeader date={date} onChange={handleDateChanged} />
         <FlatList
-          keyExtractor={(item)=> { return item._id }}
+          keyExtractor={(item) => {
+            return item._id as string;
+          }}
           style={styles.list}
           data={notes}
           ItemSeparatorComponent={Separator}
           renderItem={({ item }) => (
             <ListItem containerStyle={styles.listItem}>
               <ListItem.Content>
-                <ListItem.Title style={styles.listItemTitle}>{item.body}</ListItem.Title>
+                <ListItem.Title style={styles.listItemTitle}>
+                  {item.body}
+                </ListItem.Title>
               </ListItem.Content>
               {/* <ListItem.Chevron /> */}
             </ListItem>
@@ -64,7 +78,7 @@ const Separator = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   content: {
     flex: 1,
@@ -76,10 +90,10 @@ const styles = StyleSheet.create({
     margin: "auto",
   },
   listItem: {
-    backgroundColor: "rgba(0,0,0, 0)"
+    backgroundColor: "rgba(0,0,0, 0)",
   },
   listItemTitle: {
-    color: "white"
+    color: "white",
   },
   listItemSeparator: {
     height: 1,
