@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 import { Alert, FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import { ListItem } from "react-native-elements";
-import { createNote, getNotes, Note } from "../api/NoteApi";
+import { clearNotesCache, createNote, getNotes, Note } from "../api/NoteApi";
 import {
   View,
   TextInput,
@@ -127,6 +127,7 @@ export default function LogScreen({ route }: LogScreenProps) {
   }
 
   function handleRefreshPressed() {
+    clearNotesCache();
     refetchNotes();
   }
 
