@@ -7,6 +7,7 @@ import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import moment from "moment";
 import useColorScheme from "../hooks/useColorScheme";
+import Colors from "../constants/Colors";
 
 export type DateHeaderProps = {
   date: Date;
@@ -20,6 +21,7 @@ export default function DateHeader({ date, onChange, onRefresh, onToday }: DateH
 
   const styles = StyleSheet.create({
     dateHeader: {
+      paddingVertical: 4,
       borderBottomWidth: 1,
       borderBottomColor: theme ==="light" ? "#EEE" : "#424242"
     },
@@ -61,16 +63,18 @@ export default function DateHeader({ date, onChange, onRefresh, onToday }: DateH
     onToday();
   }
 
+  const iconColor = theme === "light" ? Colors.light.text : Colors.dark.text;
+
   return (
     <View style={styles.dateHeader}>
       <View style={styles.content}>
-        <Button type="clear" style={styles.outerButton} icon={<Icon name="calendar" size={24} onPress={handleTodayPressed}/>}/>
+        <Button type="clear" style={styles.outerButton} icon={<Icon name="calendar" size={24} onPress={handleTodayPressed} color={iconColor}/>}/>
         <View style={styles.spacer}></View>
-        <Button type="clear" icon={<Icon name="chevron-left" size={24} onPress={handleDateLeftPressed}/>} />
+        <Button type="clear" icon={<Icon name="chevron-left" size={24} onPress={handleDateLeftPressed} color={iconColor}/>} />
         <Text style={styles.date}>{moment(date).format("YYYY-MM-DD")}</Text>
-        <Button type="clear" icon={<Icon name="chevron-right" size={24} onPress={handleDateRightPressed} />} />
+        <Button type="clear" icon={<Icon name="chevron-right" size={24} onPress={handleDateRightPressed} color={iconColor} />} />
         <View style={styles.spacer}></View>
-        <Button type="clear" style={styles.outerButton} icon={<Icon name="refresh" size={24} onPress={handleRefreshPressed}/>}/>
+        <Button type="clear" style={styles.outerButton} icon={<Icon name="refresh" size={24} onPress={handleRefreshPressed} color={iconColor}/>}/>
       </View>
     </View>
   );
