@@ -14,6 +14,7 @@ import { ColorSchemeName } from "react-native";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 import LoginScreen from "../screens/LoginScreen";
+import { getMe } from "../api/UserApi";
 
 export default function Navigation({
   colorScheme,
@@ -35,11 +36,21 @@ export default function Navigation({
 const Drawer = createDrawerNavigator();
 
 function RootNavigator() {
+  const [user, setUser] = React.useState(null);
+
+  React.useEffect(() => {
+    getMe().then((user) => {
+      setUser(user)
+    }).catch(() => {
+      setUser(null);
+    });
+  }, [])
+
   return (
     <Drawer.Navigator screenOptions={{ headerShown: true }}>
+      {!user ? <Drawer.Screen name="SignUp" component={LoginScreen} options={{title: "Sign Up", headerTitle: "engram", headerLeft: () => { return null }}} initialParams={{ isSignUp: true }} /> : null}
+      {!user ? <Drawer.Screen name="Login" component={LoginScreen} options={{title: "Log In", headerTitle: "engram", headerLeft: () => { return null }}} /> : null}
       <Drawer.Screen name="Daily" component={BottomTabNavigator} />
-      <Drawer.Screen name="Login" component={LoginScreen} options={{title: "Log In", headerTitle: "engram", headerLeft: () => { return null }}} />
-      <Drawer.Screen name="SignUp" component={LoginScreen} options={{title: "Sign Up", headerTitle: "engram", headerLeft: () => { return null }}} initialParams={{ isSignUp: true }} />
     </Drawer.Navigator>
   );
 }

@@ -8,7 +8,7 @@ import {
   Image
 } from "react-native";
 import { Link } from "@react-navigation/native"
-import { login, signup } from "../api/UserApi";
+import { getMe, login, signup } from "../api/UserApi";
 import { TextInput } from "../components/Themed";
 import { Button } from "react-native-elements"
 const Logo = require("../assets/images/adaptive-icon.png");
