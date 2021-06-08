@@ -11,8 +11,7 @@ import { Link } from "@react-navigation/native"
 import { login, signup } from "../api/UserApi";
 import { TextInput } from "../components/Themed";
 import { Button } from "react-native-elements"
-import Divider from "../components/Divider";
-const Logo = require("../assets/images/icon.png");
+const Logo = require("../assets/images/adaptive-icon.png");
 
 type LoginScreenProps = {
   navigation: any;
