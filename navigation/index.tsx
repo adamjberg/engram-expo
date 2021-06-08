@@ -50,7 +50,7 @@ function RootNavigator() {
     <Drawer.Navigator screenOptions={{ headerShown: true }}>
       {!user ? <Drawer.Screen name="SignUp" component={LoginScreen} options={{title: "Sign Up", headerTitle: "engram", headerLeft: () => { return null }}} initialParams={{ isSignUp: true }} /> : null}
       {!user ? <Drawer.Screen name="Login" component={LoginScreen} options={{title: "Log In", headerTitle: "engram", headerLeft: () => { return null }}} /> : null}
-      <Drawer.Screen name="Daily" component={BottomTabNavigator} />
+      <Drawer.Screen name="Daily" component={BottomTabNavigator} options={{headerLeft: () => { return null }}}/>
     </Drawer.Navigator>
   );
 }
