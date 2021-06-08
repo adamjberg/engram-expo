@@ -11,6 +11,8 @@ import { Link } from "@react-navigation/native"
 import { getMe, login, signup } from "../api/UserApi";
 import { TextInput } from "../components/Themed";
 import { Button } from "react-native-elements"
+import { getTextColor } from "../constants/Colors";
+import useColorScheme from "../hooks/useColorScheme";
 const Logo = require("../assets/images/adaptive-icon.png");
 
 type LoginScreenProps = {
@@ -23,6 +25,7 @@ type LoginScreenProps = {
 }
 
 export default function LoginScreen({ navigation, route }: LoginScreenProps) {
+  const theme = useColorScheme();
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -31,7 +34,7 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
   async function handleSubmit() {
     try {
       if (isSignUp) {
-        signup({ username, email, password })
+        await signup({ username, email, password })
       } else {
         await login({ username, password });
       }
@@ -41,6 +44,30 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
     }
   }
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+    },
+    logo: {
+      width: 256,
+      height: 256,
+      marginVertical: 32
+    },
+    input: {
+      fontSize: 24,
+      width: 256,
+      marginBottom: 8,
+      color: getTextColor(theme)
+    },
+    primaryButton: {
+      width: 256
+    },
+    link: {
+      marginVertical: 8
+    }
+  });
+  
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -83,26 +110,3 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-  },
-  logo: {
-    width: 256,
-    height: 256,
-    marginVertical: 32
-  },
-  input: {
-    fontSize: 24,
-    width: 256,
-    marginBottom: 8
-  },
-  primaryButton: {
-    width: 256
-  },
-  link: {
-    marginVertical: 8
-  }
-});

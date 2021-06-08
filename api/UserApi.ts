@@ -17,6 +17,17 @@ export async function login(options: LoginOptions) {
   return res.json();
 }
 
+export async function logout() {
+  const res = await fetch(`${baseUrl}/api/users/logout`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+  return res.json();
+}
+
 type SignUpParams = {
   username: string;
   email: string;
