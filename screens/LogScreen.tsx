@@ -22,6 +22,7 @@ export type LogScreenProps = {
 };
 
 export default function LogScreen({ route }: LogScreenProps) {
+  const listRef = React.useRef<FlatList | null>(null);
   const [body, setBody] = React.useState("");
   const [notes, setNotes] = React.useState<Note[]>([]);
   const [date, setDate] = React.useState(new Date());
@@ -63,6 +64,10 @@ export default function LogScreen({ route }: LogScreenProps) {
       const createdNote = await createNote(noteToCreate);
       setNotes([...notes, createdNote]);
       setBody("");
+
+      setTimeout(() => {
+        listRef.current?.scrollToEnd();
+      }, 100)
     } catch(err) {
       handleGenericError(err);
     }
@@ -145,6 +150,7 @@ export default function LogScreen({ route }: LogScreenProps) {
           onRefresh={handleRefreshPressed}
         />
         <FlatList
+          ref={listRef}
           keyExtractor={(item, index) => {
             if (item._id) {
               return item._id;
@@ -174,8 +180,6 @@ export default function LogScreen({ route }: LogScreenProps) {
             onChangeText={setBody}
             value={body}
             returnKeyType="done"
-            autoCompleteType="off"
-            autoCorrect={false}
             autoCapitalize={"none"}
             placeholder={"What's on your mind?"}
           />
