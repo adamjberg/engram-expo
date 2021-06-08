@@ -68,13 +68,13 @@ export default function DateHeader({ date, onChange, onRefresh, onToday }: DateH
   return (
     <View style={styles.dateHeader}>
       <View style={styles.content}>
-        <Button type="clear" style={styles.outerButton} icon={<Icon name="calendar" size={24} onPress={handleTodayPressed} color={iconColor}/>}/>
+        <Button onPress={handleTodayPressed} type="clear" style={styles.outerButton} icon={<Icon name="calendar" size={24} color={iconColor}/>}/>
         <View style={styles.spacer}></View>
-        <Button type="clear" icon={<Icon name="chevron-left" size={24} onPress={handleDateLeftPressed} color={iconColor}/>} />
+        <Button onPress={handleDateLeftPressed} type="clear" icon={<Icon name="chevron-left" size={24} color={iconColor}/>} />
         <Text style={styles.date}>{moment(date).format("YYYY-MM-DD")}</Text>
-        <Button type="clear" icon={<Icon name="chevron-right" size={24} onPress={handleDateRightPressed} color={iconColor} />} />
+        <Button onPress={handleDateRightPressed} type="clear" icon={<Icon name="chevron-right" size={24} color={iconColor} />} />
         <View style={styles.spacer}></View>
-        <Button type="clear" style={styles.outerButton} icon={<Icon name="refresh" size={24} onPress={handleRefreshPressed} color={iconColor}/>}/>
+        <Button onPress={handleRefreshPressed} type="clear" style={styles.outerButton} icon={<Icon name="refresh" size={24} color={iconColor}/>}/>
       </View>
     </View>
   );
