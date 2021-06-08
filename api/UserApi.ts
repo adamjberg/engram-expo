@@ -34,3 +34,8 @@ export async function signup(params: SignUpParams) {
   });
   return res.json();
 }
+
+export async function getMe() {
+  const res = await fetch(`${baseUrl}/api/users/me`);
+  return res.json();
+}
