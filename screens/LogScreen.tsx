@@ -12,7 +12,8 @@ import {
 import moment from "moment";
 import DateHeader from "../components/DateHeader";
 import useColorScheme from "../hooks/useColorScheme";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addNote, fetchNotes } from "../redux/actions/NotesActions";
 
 export type LogScreenProps = {
   route: {
@@ -27,6 +28,7 @@ const selectNotes = (state: any) => { return state.notes };
 
 export default function LogScreen({ route }: LogScreenProps) {
   const notes = useSelector(selectNotes);
+  const dispatch = useDispatch();
   const listRef = React.useRef<FlatList | null>(null);
   const [body, setBody] = React.useState("");
   const [date, setDate] = React.useState(new Date());
@@ -41,32 +43,31 @@ export default function LogScreen({ route }: LogScreenProps) {
     }
   }
 
+  const filteredNotes = notes.filter((note: Note) => {
+    if (note.date !== moment(date).format("YYYY-MM-DD")) {
+      return false
+    }
+    if (allowedTypes.includes(note.type) === false) {
+      return false;
+    }
+    return true;
+    
+  });
+
   React.useEffect(() => {
     refetchNotes();
   }, [date, route.params?.type]);
 
   async function refetchNotes() {
-    getNotes().then((notes) => {
-      const filteredNotes = notes.filter((note) => {
-        if (note.date !== moment(date).format("YYYY-MM-DD")) {
-          return false
-        }
-        if (allowedTypes.includes(note.type) === false) {
-          return false;
-        }
-        return true;
-        
-      });
-      setNotes(filteredNotes);
-    }).catch(handleGenericError)
+    fetchNotes(dispatch).catch(handleGenericError)
   }
 
   async function handleSubmit() {
     let dateString = moment(date).format("YYYY-MM-DD");
     let noteToCreate: Note = { body, type: type || "note", date: dateString };
     try {
-      const createdNote = await createNote(noteToCreate);
-      setNotes([...notes, createdNote]);
+      await addNote(dispatch, noteToCreate);
+
       setBody("");
 
       setTimeout(() => {
@@ -163,7 +164,7 @@ export default function LogScreen({ route }: LogScreenProps) {
             }
           }}
           style={styles.list}
-          data={notes}
+          data={filteredNotes}
           ItemSeparatorComponent={Separator}
           renderItem={({ item }) => (
             <ListItem containerStyle={styles.listItem}>
