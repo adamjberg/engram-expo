@@ -15,8 +15,9 @@ import { ColorSchemeName } from "react-native";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 import LoginScreen from "../screens/LoginScreen";
-import { getMe, logout } from "../api/UserApi";
 import useColorScheme from "../hooks/useColorScheme";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser, logout } from "../redux/actions/UserActions";
 
 export default function Navigation({
   colorScheme,
@@ -37,17 +38,14 @@ export default function Navigation({
 
 const Drawer = createDrawerNavigator();
 
+const selectUser = (state: any) => { return state.user };
+
 function RootNavigator() {
-  const [user, setUser] = React.useState(null);
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   React.useEffect(() => {
-    getMe()
-      .then((user) => {
-        setUser(user);
-      })
-      .catch(() => {
-        setUser(null);
-      });
+    fetchUser(dispatch);
   }, []);
 
   return (
@@ -78,16 +76,17 @@ function RootNavigator() {
         }}
       />
       <Drawer.Screen name="Daily" component={BottomTabNavigator} />
-      {/* <Drawer.Screen name="Logout" component={LogoutScreen} /> */}
+      <Drawer.Screen name="Logout" component={LogoutScreen} />
     </Drawer.Navigator>
   );
 }
 
 function LogoutScreen() {
   const theme = useColorScheme();
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
-    logout().catch();
+    logout(dispatch);
   }, []);
   return <Link style={{fontSize: 24, textAlign: "center", color: theme === "light" ? "black" : "white"}} to="/login">Return to login</Link>;
 }

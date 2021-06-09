@@ -1,4 +1,5 @@
 import { Note } from "../../api/NoteApi";
+import { LogoutAction } from "../actions/UserActions";
 
 const INITIAL_STATE: Note[] = [];
 
@@ -18,7 +19,7 @@ type FetchNotesAction = {
   payload: Note[];
 }
 
-const NotesReducer = (state = INITIAL_STATE, action: AddNoteAction | FetchNotesAction | RemoveNoteAction) => {
+const NotesReducer = (state = INITIAL_STATE, action: AddNoteAction | FetchNotesAction | RemoveNoteAction | LogoutAction) => {
   switch(action.type) {
     case "ADD_NOTE":
       return [...state, action.payload];
@@ -29,6 +30,8 @@ const NotesReducer = (state = INITIAL_STATE, action: AddNoteAction | FetchNotesA
       const index = stateCopy.findIndex((note) => { return note._id === action.payload })
       stateCopy.splice(index, 1);
       return stateCopy;
+    case "LOGOUT":
+      return [];
     default:
       return state;
   }
