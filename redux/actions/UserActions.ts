@@ -14,6 +14,7 @@ export async function fetchUser(dispatch: Dispatch) {
   }
 
   dispatch({ type: "FETCH_USER", payload: user });
+  return user;
 }
 
 export async function login(dispatch: Dispatch, params: UserApi.LoginParams) {
