@@ -13,6 +13,8 @@ import moment from "moment";
 import DateHeader from "../components/DateHeader";
 import useColorScheme from "../hooks/useColorScheme";
 
+import { connect } from "react-redux";
+
 export type LogScreenProps = {
   route: {
     params?: {
@@ -21,7 +23,7 @@ export type LogScreenProps = {
   };
 };
 
-export default function LogScreen({ route }: LogScreenProps) {
+function LogScreen({ route }: LogScreenProps) {
   const listRef = React.useRef<FlatList | null>(null);
   const [body, setBody] = React.useState("");
   const [notes, setNotes] = React.useState<Note[]>([]);
@@ -188,3 +190,11 @@ export default function LogScreen({ route }: LogScreenProps) {
     </KeyboardAvoidingView>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    notes: state.notes
+  }
+}
+
+export default connect(mapStateToProps)(LogScreen)
