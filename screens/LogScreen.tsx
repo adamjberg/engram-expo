@@ -12,8 +12,7 @@ import {
 import moment from "moment";
 import DateHeader from "../components/DateHeader";
 import useColorScheme from "../hooks/useColorScheme";
-
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 export type LogScreenProps = {
   route: {
@@ -23,10 +22,13 @@ export type LogScreenProps = {
   };
 };
 
-function LogScreen({ route }: LogScreenProps) {
+const selectNotes = (state: any) => { return state.notes };
+
+
+export default function LogScreen({ route }: LogScreenProps) {
+  const notes = useSelector(selectNotes);
   const listRef = React.useRef<FlatList | null>(null);
   const [body, setBody] = React.useState("");
-  const [notes, setNotes] = React.useState<Note[]>([]);
   const [date, setDate] = React.useState(new Date());
   const theme = useColorScheme();
   const type = route.params?.type;
@@ -190,11 +192,3 @@ function LogScreen({ route }: LogScreenProps) {
     </KeyboardAvoidingView>
   );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    notes: state.notes
-  }
-}
-
-export default connect(mapStateToProps)(LogScreen)

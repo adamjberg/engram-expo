@@ -9,14 +9,19 @@ import Navigation from "./navigation";
 import GlobalStyle from "./GlobalStyle";
 
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunkMiddleware from 'redux-thunk'
+
 import notesReducer from "./redux/reducers/NotesReducer";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
 
-  const store = createStore(notesReducer);
+  const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware))
+
+  const store = createStore(notesReducer, composedEnhancer);
 
   if (!isLoadingComplete) {
     return null;
