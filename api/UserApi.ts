@@ -1,11 +1,17 @@
 import { baseUrl } from "./Api";
 
-type LoginOptions = {
+export type User = {
+  _id: string;
+  username: string;
+  email: string;
+}
+
+export type LoginParams = {
   username: string;
   password: string;
 }
 
-export async function login(options: LoginOptions) {
+export async function login(options: LoginParams) {
   const res = await fetch(`${baseUrl}/api/users/login`, {
     method: "POST",
     headers: {
@@ -28,7 +34,7 @@ export async function logout() {
   return res.json();
 }
 
-type SignUpParams = {
+export type SignUpParams = {
   username: string;
   email: string;
   password: string;

@@ -8,7 +8,7 @@ export async function fetchNotes(dispatch: Dispatch) {
 
 export async function addNote(dispatch: Dispatch, note: Note) {
   const createdNote = await createNote(note);
-  dispatch({ type: 'ADD_NOTE', payload: createdNote })
+  dispatch({ type: 'ADD_NOTE', payload: createdNote });
 }
 
 // export const addNote = (note: Note) => {

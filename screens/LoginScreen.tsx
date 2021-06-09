@@ -8,13 +8,13 @@ import {
   Image,
 } from "react-native";
 import { Link } from "@react-navigation/native";
-import { getMe, login, signup } from "../api/UserApi";
 import { TextInput } from "../components/Themed";
 import { Button } from "react-native-elements";
 import { getTextColor } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import { fetchNotes } from "../redux/actions/NotesActions";
 import { useDispatch } from "react-redux";
+import { login, signup } from "../redux/actions/UserActions";
 const Logo = require("../assets/images/adaptive-icon.png");
 
 type LoginScreenProps = {
@@ -37,9 +37,9 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
   async function handleSubmit() {
     try {
       if (isSignUp) {
-        await signup({ username, email, password });
+        await signup(dispatch, { username, email, password });
       } else {
-        await login({ username, password });
+        await login(dispatch, { username, password });
         await fetchNotes(dispatch);
       }
       navigation.navigate("Daily");
@@ -54,8 +54,8 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
       alignItems: "center",
     },
     logo: {
-      width: 256,
-      height: 256,
+      width: 128,
+      height: 128,
       marginVertical: 32,
     },
     input: {
