@@ -26,27 +26,8 @@ export type GetNotesParams = {
   before?: string;
 }
 
-let getNotesPromise: Promise<Note[]> | null = null;
-
 export async function getNotes(params?: GetNotesParams): Promise<Note[]> {
-  if (getNotesPromise) {
-    return getNotesPromise;
-  }
-
-  getNotesPromise = new Promise(async (resolve, reject) => {
-    try {
-      const query = qs.stringify(params);
-      const res = await fetch(`${baseUrl}/api/notes?${query}`);
-      resolve(res.json());
-    }
-    catch(err) {
-      reject(err);
-    }
-  })
-
-  return getNotesPromise;  
-}
-
-export function clearNotesCache() {
-  getNotesPromise = null;
+  const query = qs.stringify(params);
+    const res = await fetch(`${baseUrl}/api/notes?${query}`);
+    return res.json();
 }

@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 import { Alert, FlatList, KeyboardAvoidingView, Platform } from "react-native";
 import { ListItem } from "react-native-elements";
-import { clearNotesCache, createNote, getNotes, Note } from "../api/NoteApi";
+import { Note } from "../api/NoteApi";
 import {
   View,
   TextInput,
@@ -14,6 +14,7 @@ import DateHeader from "../components/DateHeader";
 import useColorScheme from "../hooks/useColorScheme";
 import { useDispatch, useSelector } from "react-redux";
 import { addNote, fetchNotes } from "../redux/actions/NotesActions";
+import { setDate } from "../redux/actions/DateActions";
 
 export type LogScreenProps = {
   route: {
@@ -24,14 +25,15 @@ export type LogScreenProps = {
 };
 
 const selectNotes = (state: any) => { return state.notes };
+const selectDate = (state: any) => { return state.date };
 
 
 export default function LogScreen({ route }: LogScreenProps) {
   const notes = useSelector(selectNotes);
+  const date = useSelector(selectDate);
   const dispatch = useDispatch();
   const listRef = React.useRef<FlatList | null>(null);
   const [body, setBody] = React.useState("");
-  const [date, setDate] = React.useState(new Date());
   const theme = useColorScheme();
   const type = route.params?.type;
   let allowedTypes = ["note", "task", "task_completed", "event"];
@@ -54,10 +56,6 @@ export default function LogScreen({ route }: LogScreenProps) {
     
   });
 
-  React.useEffect(() => {
-    refetchNotes();
-  }, [date, route.params?.type]);
-
   async function refetchNotes() {
     fetchNotes(dispatch).catch(handleGenericError)
   }
@@ -79,7 +77,7 @@ export default function LogScreen({ route }: LogScreenProps) {
   }
 
   function handleDateChanged(date: Date) {
-    setDate(date);
+    _setDate(date);
   }
   
   function handleGenericError(err: Error) {
@@ -133,11 +131,14 @@ export default function LogScreen({ route }: LogScreenProps) {
   });
 
   function handleTodayPressed() {
-    setDate(new Date());
+    _setDate(new Date());
+  }
+
+  function _setDate(date: Date) {
+    setDate(dispatch, date);
   }
 
   function handleRefreshPressed() {
-    clearNotesCache();
     refetchNotes();
   }
 

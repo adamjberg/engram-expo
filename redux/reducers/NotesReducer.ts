@@ -1,4 +1,3 @@
-import { combineReducers } from "redux";
 import { Note } from "../../api/NoteApi";
 
 const INITIAL_STATE: Note[] = [];
@@ -19,7 +18,7 @@ type FetchNotesAction = {
   payload: Note[];
 }
 
-const notesReducer = (state = INITIAL_STATE, action: AddNoteAction | FetchNotesAction | RemoveNoteAction) => {
+const NotesReducer = (state = INITIAL_STATE, action: AddNoteAction | FetchNotesAction | RemoveNoteAction) => {
   switch(action.type) {
     case "ADD_NOTE":
       return [...state, action.payload];
@@ -35,6 +34,4 @@ const notesReducer = (state = INITIAL_STATE, action: AddNoteAction | FetchNotesA
   }
 }
 
-export default combineReducers({
-  notes: notesReducer
-})
+export default NotesReducer;

@@ -5,14 +5,16 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  Image
+  Image,
 } from "react-native";
-import { Link } from "@react-navigation/native"
+import { Link } from "@react-navigation/native";
 import { getMe, login, signup } from "../api/UserApi";
 import { TextInput } from "../components/Themed";
-import { Button } from "react-native-elements"
+import { Button } from "react-native-elements";
 import { getTextColor } from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import { fetchNotes } from "../redux/actions/NotesActions";
+import { useDispatch } from "react-redux";
 const Logo = require("../assets/images/adaptive-icon.png");
 
 type LoginScreenProps = {
@@ -20,11 +22,12 @@ type LoginScreenProps = {
   route: {
     params?: {
       isSignUp?: boolean;
-    }
-  }
-}
+    };
+  };
+};
 
 export default function LoginScreen({ navigation, route }: LoginScreenProps) {
+  const dispatch = useDispatch();
   const theme = useColorScheme();
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -34,12 +37,13 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
   async function handleSubmit() {
     try {
       if (isSignUp) {
-        await signup({ username, email, password })
+        await signup({ username, email, password });
       } else {
         await login({ username, password });
+        await fetchNotes(dispatch);
       }
       navigation.navigate("Daily");
-    } catch(err) {
+    } catch (err) {
       Alert.alert("Error", err.message);
     }
   }
@@ -52,28 +56,28 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
     logo: {
       width: 256,
       height: 256,
-      marginVertical: 32
+      marginVertical: 32,
     },
     input: {
       fontSize: 24,
       width: 256,
       marginBottom: 8,
-      color: getTextColor(theme)
+      color: getTextColor(theme),
     },
     primaryButton: {
-      width: 256
+      width: 256,
     },
     link: {
-      marginVertical: 8
-    }
+      marginVertical: 8,
+    },
   });
-  
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles.container}
     >
-      <Image style={styles.logo} source={Logo}/>
+      <Image style={styles.logo} source={Logo} />
       <TextInput
         style={styles.input}
         onChangeText={setUsername}
@@ -105,8 +109,20 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
         placeholder={"Password"}
         secureTextEntry={true}
       />
-      <Button style={styles.primaryButton} title={isSignUp ? "Sign Up" : "Login"} onPress={handleSubmit} />
-      {isSignUp ? <Link style={styles.link} to="/login">Already have an account? Log in</Link> : <Link style={styles.link} to="/signup">Don't have an account? Sign Up</Link> }
+      <Button
+        style={styles.primaryButton}
+        title={isSignUp ? "Sign Up" : "Login"}
+        onPress={handleSubmit}
+      />
+      {isSignUp ? (
+        <Link style={styles.link} to="/login">
+          Already have an account? Log in
+        </Link>
+      ) : (
+        <Link style={styles.link} to="/signup">
+          Don't have an account? Sign Up
+        </Link>
+      )}
     </KeyboardAvoidingView>
   );
 }

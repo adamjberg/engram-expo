@@ -13,7 +13,7 @@ import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware from 'redux-thunk'
 
-import notesReducer from "./redux/reducers/NotesReducer";
+import reducers from "./redux/reducers";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -21,7 +21,7 @@ export default function App() {
 
   const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware))
 
-  const store = createStore(notesReducer, composedEnhancer);
+  const store = createStore(reducers, composedEnhancer);
 
   if (!isLoadingComplete) {
     return null;
