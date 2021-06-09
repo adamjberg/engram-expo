@@ -37,9 +37,15 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
   async function handleSubmit() {
     try {
       if (isSignUp) {
-        await signup(dispatch, { username, email, password });
+        const data = await signup(dispatch, { username, email, password });
+        if (data.errors) {
+          throw new Error(data.errors);
+        }
       } else {
-        await login(dispatch, { username, password });
+        const data = await login(dispatch, { username, password });
+        if (data.errors) {
+          throw new Error(data.errors);
+        }
         await fetchNotes(dispatch);
       }
       navigation.navigate("Daily");
@@ -69,7 +75,7 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
     },
     link: {
       marginVertical: 8,
-      color: getTextColor(theme)
+      color: getTextColor(theme),
     },
   });
 

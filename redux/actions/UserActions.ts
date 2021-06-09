@@ -20,6 +20,7 @@ export async function fetchUser(dispatch: Dispatch) {
 export async function login(dispatch: Dispatch, params: UserApi.LoginParams) {
   const user = await UserApi.login(params);
   dispatch({ type: "LOGIN", payload: user });
+  return user;
 }
 
 export async function logout(dispatch: Dispatch) {
@@ -30,4 +31,5 @@ export async function logout(dispatch: Dispatch) {
 export async function signup(dispatch: Dispatch, params: UserApi.SignUpParams) {
   const user = await UserApi.signup(params);
   dispatch({ type: "SIGNUP", payload: user });
+  return user;
 }
