@@ -69,6 +69,7 @@ export default function LoginScreen({ navigation, route }: LoginScreenProps) {
     },
     link: {
       marginVertical: 8,
+      color: getTextColor(theme)
     },
   });
 
