@@ -36,6 +36,14 @@ export default function LogScreen({ route }: LogScreenProps) {
   const [body, setBody] = React.useState("");
   const theme = useColorScheme();
   const type = route.params?.type;
+
+  let placeholder = "What's on your mind?"
+  if (type === "task") {
+    placeholder = "What do you need to do today?"
+  } else if (type === "event") {
+    placeholder = "What's happening today?";
+  }
+
   let allowedTypes = ["note", "task", "task_completed", "event"];
   if (type) {
     if (type === "task") {
@@ -187,7 +195,7 @@ export default function LogScreen({ route }: LogScreenProps) {
             value={body}
             returnKeyType="done"
             autoCapitalize={"none"}
-            placeholder={"What's on your mind?"}
+            placeholder={placeholder}
           />
         </View>
       </View>
