@@ -17,7 +17,7 @@ import LinkingConfiguration from "./LinkingConfiguration";
 import LoginScreen from "../screens/LoginScreen";
 import useColorScheme from "../hooks/useColorScheme";
 import { useDispatch } from "react-redux";
-import { fetchUser, logout } from "../redux/actions/UserActions";
+import { logout } from "../redux/actions/UserActions";
 
 export default function Navigation({
   colorScheme,
@@ -39,16 +39,6 @@ export default function Navigation({
 const Drawer = createDrawerNavigator();
 
 function RootNavigator({ navigation }: any) {
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    fetchUser(dispatch).then((user) => {
-      if (!user) {
-        navigation.navigate("Login");
-      }
-    });
-  }, []);
-
   return (
     <Drawer.Navigator initialRouteName={"Daily"} screenOptions={{ headerShown: true }}>
       <Drawer.Screen name="Daily" component={BottomTabNavigator} />

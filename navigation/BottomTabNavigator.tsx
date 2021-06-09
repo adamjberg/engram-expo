@@ -7,9 +7,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import { useDispatch } from 'react-redux';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
+import { fetchUser } from '../redux/actions/UserActions';
 import LogScreen from '../screens/LogScreen';
 import { BottomTabParamList, LogParamList } from '../types';
 
@@ -21,6 +23,16 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator({navigation}: BottomTabNavigatorProps) {
   const colorScheme = useColorScheme();
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    fetchUser(dispatch).then((user) => {
+      if (!user) {
+        navigation.navigate("Login");
+      }
+    });
+  }, []);
 
   return (
     <BottomTab.Navigator
